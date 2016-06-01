@@ -1,13 +1,17 @@
 'use strict';
 import React from 'react';
-import { Router, Route, Link, IndexRoute } from 'react-router';
+import { browserHistory, Router, Route, IndexRoute } from 'react-router';
 import Main from './components/Main.jsx';
 import Home from './components/Home.jsx';
-import Page2 from './components/Page2.jsx';
+import Treatment from './components/Treatment.jsx';
+import Contact from './components/Contact.jsx';
 
 module.exports = (
-  <Route path='/' component={Main} >
+  <Router history={browserHistory}>
+    <Route path='/' component={Main} >
     <IndexRoute component={Home} />
-    <Route path="/page2" component={Page2} />
-  </Route>
+      <Route path="/treatment" component={Treatment} />
+      <Route path="/contact" component={Contact} />
+    </Route>
+  </Router>
 );

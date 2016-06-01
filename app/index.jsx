@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import { createHistory, createMemoryHistory } from 'history';
-import { Router, RoutingContext, match } from 'react-router';
+import { browserHistory, Router, RouterContext, match } from 'react-router';
 
 const template = require('../templates/index.hbs');
 import routes from './routes.jsx'
@@ -15,7 +15,7 @@ if (typeof document !== 'undefined') {
   const history = createHistory();
   const outlet = document.getElementById('app');
 
-  ReactDOM.render(<Router history={history} routes={routes} />, outlet);
+  ReactDOM.render(<Router onUpdate={() => window.scrollTo(0,0)} history={browserHistory} routes={routes} />, outlet);
 }
 
 // have to use `module.exports`
@@ -28,8 +28,7 @@ module.exports = (locals, callback) => {
       title: locals.title,
       css: css,
       isDevServer: locals.npmMode == 'server',
-      appCode: ReactDOMServer.renderToString(<RoutingContext {...renderProps} />)
+      appCode: ReactDOMServer.renderToString(<RouterContext {...renderProps} />)
     }))
   })
 };
-

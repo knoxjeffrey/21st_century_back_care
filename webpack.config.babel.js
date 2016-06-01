@@ -12,6 +12,7 @@ var pkg = require('./package.json');
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var SCSS_PATH = path.resolve(ROOT_PATH, 'app/scss/navigation');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 process.env.BABEL_ENV = TARGET;
@@ -51,6 +52,16 @@ var common = {
           cacheDirectory: true,
           presets: ['es2015', 'react']
         }
+      },
+      {
+        test: /\.(jpg|jpeg|gif|png)$/,
+        exclude: /node_modules/,
+        loader:'url-loader?limit=30000&name=images/[name].[ext]'
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        exclude: /node_modules/,
+        loader: 'url-loader?limit=30000&name=fonts/[name].[ext]'
       }
     ]
   },
@@ -86,6 +97,16 @@ if(TARGET === 'start' || TARGET === 'server' || !TARGET) {
       host: '0.0.0.0',
       port: 3000,
       contentBase: './build'
+    },
+
+    module: {
+      loaders: [
+        {
+          test: /\.scss$/,
+          loaders: ['style', 'css', 'sass'],
+          include: SCSS_PATH
+        }
+      ]
     },
 
     plugins: plugins
